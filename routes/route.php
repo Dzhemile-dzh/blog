@@ -17,4 +17,12 @@ if (isset($_GET['action'])) {
     if($request == 'register') {
         $route = "UserController@registerAction";
     }
+
+    if($request == 'images') {
+        $route = "UploadController@allImagesAction";
+    }
+
+    if($request == 'fileUpload') {
+        $route = "UploadController@uploadAction";
+    }
 }
