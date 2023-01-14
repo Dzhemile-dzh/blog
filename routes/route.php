@@ -25,4 +25,12 @@ if (isset($_GET['action'])) {
     if($request == 'fileUpload') {
         $route = "UploadController@uploadAction";
     }
+
+    if($request == 'blogs') {
+        $route = "BlogController@allBlogsAction";
+    }
+
+    if($request == 'addBlog') {
+        $route = "BlogController@addBlogAction";
+    }
 }

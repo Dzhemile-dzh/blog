@@ -25,7 +25,7 @@ class UploadController {
                 $message = "Sorry, there was an error!";
             }
         }
-        return require_once('../view/admin/pages/upload.php');
+        return require_once('../view/admin/add/addImage.php');
     }
 
     public function allImagesAction(){
