@@ -5,14 +5,16 @@ class BlogController {
 
     public function addBlogAction() {
         if (isset($_POST['submit'])) {
-
-            $title = $_POST['b_title'];
-            $body = $_POST['b_body'];
-            $type = $_POST['b_type'];
-            $author = $_POST['b_author'];
-            $is_active = $_POST['b_is_active'] ?? 0;
-
-            $this->model->AddBlog($title, $body, $type, $author, $is_active);
+            $title = filter_input(INPUT_POST, 'b_title', FILTER_SANITIZE_STRING);
+            $body = filter_input(INPUT_POST, 'b_body', FILTER_SANITIZE_STRING);
+            $type = filter_input(INPUT_POST, 'b_type', FILTER_SANITIZE_STRING);
+            $author = filter_input(INPUT_POST, 'b_author', FILTER_SANITIZE_STRING);
+            $is_active = filter_input(INPUT_POST, 'b_is_active', FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            if ($title && $body && $type && $author) {
+                $this->model->AddBlog($title, $body, $type, $author, $is_active);
+            } else {
+                $message = "An error occured! ";
+            }
         }
         return require_once('../view/admin/add/addBlog.php');
     }

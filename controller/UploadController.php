@@ -6,23 +6,18 @@ class UploadController {
         $message = "";
         if (isset($_POST['submit'])) {
             $type = $_POST['type'];
-            $fileName = $_FILES['uploadFile']['name'];
-            $target_dir = "./uploads/";
-            $target_file = $target_dir.basename($fileName);
-            $allowed = array('jpeg','png' ,'jpg'); 
-            $ext = pathinfo($fileName, PATHINFO_EXTENSION); 
-
-            if (!in_array($ext,$allowed) ) { 
-                     echo "Sorry, only JPG, JPEG, PNG files are allowed.";
+            $file = $_FILES['uploadFile'];
+            if ($this->validateUpload($file)) {
+                $fileName = $file['name'];
+                $target_file = "./uploads/".basename($fileName);
+                if (move_uploaded_file($file["tmp_name"], $target_file)) {
+                    $this->model->uploadImage($fileName, $type);
+                    $message = "The file ".htmlspecialchars(basename($fileName))." has been uploaded.";
+                } else {
+                    $message = "Sorry, there was an error uploading your file.";
+                }
             } else {
-                $this->model->UploadImage($fileName, $type);
-            }
-
-            if (move_uploaded_file($_FILES["uploadFile"]["tmp_name"], $target_file)) {
-                $message = "The file ".htmlspecialchars(basename($fileName))." has been uploaded.";
-
-            } else {
-                $message = "Sorry, there was an error!";
+                $message = "Sorry, only JPG, JPEG, PNG files are allowed.";
             }
         }
         return require_once('../view/admin/add/addImage.php');
@@ -33,4 +28,9 @@ class UploadController {
         return require_once('../view/admin/pages/images.php');
     }
 
+    private function validateUpload($file) {
+        $allowedExtensions = array('jpeg','jpg','png');
+        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        return in_array($extension, $allowedExtensions);
+    }
 }
