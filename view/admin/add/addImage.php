@@ -7,9 +7,9 @@
 <body>
 <?php include_once('../view/template/navigation.php'); ?>
     <div class="container">
-        <?php if (!empty($message)) { ?>
-            <div class="alert alert-primary" role="alert" id="msg"> <?php echo $message?></div>
-        <?php } ?>
+        <div class="alert alert-primary" role="alert" id="msg" <?php echo !empty($message) ?: 'style="display:none"' ?>> 
+           <?php echo $message?>
+        </div>
         <form class="row g-3" action="?action=fileUpload" method="POST" enctype="multipart/form-data" id="form_file_data">
             <div class="col-12">
                 <div class="card mt-2 mb-3">

@@ -7,9 +7,9 @@
 <body>
 <?php include_once('../view/template/navigation.php'); ?>
     <div class="container">
-        <?php if (!empty($message)) { ?>
-            <div class="alert alert-primary" role="alert" id="msg"> <?php echo $message?></div>
-        <?php } ?>
+        <div class="alert alert-primary" role="alert" id="msg" <?php echo !empty($message) ?: 'style="display:none"' ?>> 
+           <?php echo $message?>
+        </div>
         <form class="row g-3" action="?action=addBlog" method="POST">
             <div class="col-12">
                 <div class="card mt-2 mb-3">
@@ -32,9 +32,12 @@
             
                                 <label for="b_type">type</label>
                                 <select name="b_type" class="form-control">
-                                    <option value="home-decor">home decor</option>
-                                    <option value="business">business</option>
-                                    <option value="art">art</option>
+                                    <?php 
+                                        $types = array("home-decor", "business", "art");
+                                        foreach ($types as $type) {
+                                            echo "<option value='$type'>$type</option>";
+                                        }
+                                    ?>
                                 </select>
 
                                 <label for="b_author">author</label>

@@ -12,27 +12,28 @@
         <table class="table">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Image</th>
-                <th scope="col">Date</th>
-                <th scope="col">Type</th>
-                <th scope="col">Action</th>
+                <?php 
+                    $cols = array("#", "Image", "Date", "Type", "Action");
+                    foreach ($cols as $col) {
+                        echo "<th scope='col'>$col</th>";
+                    }
+                ?>
             </tr>
         </thead>
         <tbody>
         <?php foreach ($images as $image) { ?> 
             <tr>
-                <th scope="row"><?php echo $image['i_id']; ?></th>
+                <th scope="row"><?= $image['i_id']; ?></th>
                 <td>    
                     <div id="display-image">
-                        <img src=".\uploads\<?php echo $image['i_filename']?>">
+                        <img src=".\uploads\<?= $image['i_filename']?>">
                     </div>
                 </td>
-                <td><?php echo $image['i_uploaded']; ?></td>
-                <td><?php echo $image['i_type']; ?></td>
+                <td><?= $image['i_uploaded']; ?></td>
+                <td><?= $image['i_type']; ?></td>
                 <td>
-                    <button type="submit" name="delete_image" value="<?php echo $image['i_id']?>" class="btn btn-danger">Delete</button>
-                    <button type="submit" name="edit_image" value="<?php echo $image['i_id']?>" class="btn btn-warning">Edit</button>
+                    <button type="submit" name="delete_image" value="<?= $image['i_id']?>" class="btn btn-danger">Delete</button>
+                    <button type="submit" name="edit_image" value="<?= $image['i_id']?>" class="btn btn-warning">Edit</button>
                 </td>
             </tr>
         <?php } ?>

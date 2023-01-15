@@ -2,35 +2,16 @@
 if (isset($_GET['action'])) {
     $request = $_GET['action'];
 
-    if($request == 'home') {
-        $route = "HomeController@indexAction";
-    }
+    $routes = [
+        'home' => "HomeController@indexAction",
+        'login' => "UserController@loginAction",
+        'logout' => "UserController@logoutAction",
+        'register' => "UserController@registerAction",
+        'images' => "UploadController@allImagesAction",
+        'fileUpload' => "UploadController@uploadAction",
+        'blogs' => "BlogController@allBlogsAction",
+        'addBlog' => "BlogController@addBlogAction"
+    ];
 
-    if($request == 'login') {
-        $route = "UserController@loginAction";
-    }
-
-    if($request == 'logout') {
-        $route = "UserController@logoutAction";
-    }
-
-    if($request == 'register') {
-        $route = "UserController@registerAction";
-    }
-
-    if($request == 'images') {
-        $route = "UploadController@allImagesAction";
-    }
-
-    if($request == 'fileUpload') {
-        $route = "UploadController@uploadAction";
-    }
-
-    if($request == 'blogs') {
-        $route = "BlogController@allBlogsAction";
-    }
-
-    if($request == 'addBlog') {
-        $route = "BlogController@addBlogAction";
-    }
+    $route = $routes[$request] ?? null;
 }

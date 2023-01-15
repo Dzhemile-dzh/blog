@@ -5,10 +5,10 @@ class BlogController {
 
     public function addBlogAction() {
         if (isset($_POST['submit'])) {
-            $title = filter_input(INPUT_POST, 'b_title', FILTER_SANITIZE_STRING);
-            $body = filter_input(INPUT_POST, 'b_body', FILTER_SANITIZE_STRING);
-            $type = filter_input(INPUT_POST, 'b_type', FILTER_SANITIZE_STRING);
-            $author = filter_input(INPUT_POST, 'b_author', FILTER_SANITIZE_STRING);
+            $title = filter_input(INPUT_POST, 'b_title', FILTER_SANITIZE_SPECIAL_CHARS);
+            $body = filter_input(INPUT_POST, 'b_body', FILTER_SANITIZE_SPECIAL_CHARS);
+            $type = filter_input(INPUT_POST, 'b_type', FILTER_SANITIZE_SPECIAL_CHARS);
+            $author = filter_input(INPUT_POST, 'b_author', FILTER_SANITIZE_SPECIAL_CHARS);
             $is_active = filter_input(INPUT_POST, 'b_is_active', FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
             if ($title && $body && $type && $author) {
                 $this->model->AddBlog($title, $body, $type, $author, $is_active);
