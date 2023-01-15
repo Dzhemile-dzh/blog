@@ -10,6 +10,14 @@ class BlogModel {
         return 1;
     }
 
+    public function EditBlog($id, $title, $body, $type, $author, $is_active) {
+        $query = " UPDATE blog 
+                   SET b_title = '".$title."', b_body = '".$body."', b_type = '".$type."', b_author = '".$author."', b_is_active = '".$is_active."', b_date = NOW() 
+                   WHERE b_id = '".$id."'";
+        $stmt = $this->db->query($query);
+        return 1;
+    }
+
     public function AllBlogs () {
         $query = " SELECT *
                    FROM blog
