@@ -15,7 +15,7 @@ class UserModel {
 
     public function UserRegister ($username, $password) {
         $query = " INSERT INTO user (u_name, u_password)
-                   VALUES ('".$username."', '".$password."')
+                   VALUES ('".$username."', '".md5($password)."')
         ";
         $stmt = $this->db->query($query);
         return 1;
@@ -43,5 +43,5 @@ class UserModel {
         $stmt = $this->db->query($query);
         return 1;
     }
-    
+
 }
