@@ -26,6 +26,14 @@ class BlogModel {
         return $stmt;
     }
 
+    public function SingleBlog ($id) {
+        $query = " SELECT *
+                   FROM blog
+                   WHERE b_id = '$id'";
+        $stmt = $this->db->query($query)->fetch();
+        return $stmt;
+    }
+
     public function DeleteBlog($id) {
         $query = " DELETE
                    FROM blog

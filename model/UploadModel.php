@@ -18,13 +18,21 @@ class UploadModel {
         return $stmt;
     }
 
-    public function EditImage ($id, $fileName, $type) {
+    public function EditImage ($id, $type, $fileName) {
         $query = " UPDATE images 
-                   SET i_filename = '".$fileName."', i_uploaded = NOW(), i_type = '".$type."'
-                   WHERE i_id = '".$id."'";
+                   SET i_filename = '$fileName', i_uploaded = NOW(), i_type = '$type'
+                   WHERE i_id = '$id'";
         $stmt = $this->db->query($query);
         return 1;
     } 
+
+    public function SingleImage ($id) {
+        $query = " SELECT *
+                   FROM images
+                   WHERE i_id = '$id'";
+        $stmt = $this->db->query($query)->fetch();
+        return $stmt;
+    }
     
     public function DeleteImage ($id) {
         $query = " DELETE

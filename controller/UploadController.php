@@ -23,6 +23,15 @@ class UploadController {
         return require_once('../view/admin/add/addImage.php');
     }
 
+    public function editImageAction() {
+        if (isset($_POST['submit'])) {
+            $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
+        }
+        $getId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $image = $this->model->SingleImage($getId);
+        return require_once('../view/admin/edit/editImage.php');
+    }
+        
     public function allImagesAction(){
         $images = $this->model->allImages();
         return require_once('../view/admin/pages/images.php');

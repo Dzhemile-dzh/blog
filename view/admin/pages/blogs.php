@@ -13,7 +13,7 @@
         <thead>
             <tr>
                 <?php 
-                    $cols = array("#", "Title", "Body", "Author", "Status", "Action");
+                    $cols = array("#", "Title", "Body", "Author", "Status");
                     foreach ($cols as $col) {
                         echo "<th scope='col'>$col</th>";
                     }
@@ -34,7 +34,9 @@
                     <form action="?action=deleteBlog" method="POST">
                         <button type="submit" name="delete_blog" value="<?= $blog['b_id'];?>" class="btn btn-danger">Delete</button>
                     </form>
-                    <button type="submit" name="edit_blog" value="<?= $blog['b_id']?>" class="btn btn-warning">Edit</button>
+                </td>
+                <td>
+                    <a href="?action=editBlog&id=<?=$blog['b_id']?>"><button class="btn btn-info">Edit</button></a>
                 </td>
             </tr>
         <?php } ?>

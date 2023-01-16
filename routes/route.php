@@ -9,9 +9,11 @@ if (isset($_GET['action'])) {
         'register' => "UserController@registerAction",
         'images' => "UploadController@allImagesAction",
         'fileUpload' => "UploadController@uploadAction",
+        'editImage' => "UploadController@editImageAction",
         'deleteImage' => "UploadController@deleteImageAction",
         'blogs' => "BlogController@allBlogsAction",
         'addBlog' => "BlogController@addBlogAction",
+        'editBlog' => "BlogController@editBlogAction",
         'deleteBlog' => "BlogController@deleteBlogAction"
     ];
 

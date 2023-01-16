@@ -13,7 +13,7 @@
         <thead>
             <tr>
                 <?php 
-                    $cols = array("#", "Image", "Date", "Type", "Action");
+                    $cols = array("#", "Image", "Date", "Type");
                     foreach ($cols as $col) {
                         echo "<th scope='col'>$col</th>";
                     }
@@ -35,7 +35,9 @@
                     <form action="?action=deleteImage" method="POST">
                         <button type="submit" name="delete_image" value="<?= $image['i_id'];?>" class="btn btn-danger">Delete</button>
                     </form>
-                    <button type="submit" name="edit_image" value="<?= $image['i_id']?>" class="btn btn-warning">Edit</button>
+                    </td>
+                <td>
+                    <a href="?action=editImage&id=<?=$image['i_id']?>"><button class="btn btn-info">Edit</button></a>
                 </td>
             </tr>
         <?php } ?>
