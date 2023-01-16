@@ -33,4 +33,19 @@ class UploadController {
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
         return in_array($extension, $allowedExtensions);
     }
+
+    public function deleteImageAction(){
+        if(isset($_POST['delete_image'])) {
+            try {
+                $id = $_POST['delete_image'];
+                $this->model->DeleteImage($id);
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                exit;
+            } catch (Exception $e) {
+                $message = "Error deleting image: " . $e->getMessage();
+            }
+        } else {
+            $message = "Record was not deleted! ";
+        }
+    }
 }

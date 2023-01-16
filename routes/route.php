@@ -9,8 +9,10 @@ if (isset($_GET['action'])) {
         'register' => "UserController@registerAction",
         'images' => "UploadController@allImagesAction",
         'fileUpload' => "UploadController@uploadAction",
+        'deleteImage' => "UploadController@deleteImageAction",
         'blogs' => "BlogController@allBlogsAction",
-        'addBlog' => "BlogController@addBlogAction"
+        'addBlog' => "BlogController@addBlogAction",
+        'deleteBlog' => "BlogController@deleteBlogAction"
     ];
 
     $route = $routes[$request] ?? null;

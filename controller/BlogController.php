@@ -23,4 +23,19 @@ class BlogController {
             $blogs = $this->model->allBlogs();
             return require_once('../view/admin/pages/blogs.php');
     }
+    
+    public function deleteBlogAction(){
+        if(isset($_POST['delete_blog'])) {
+            try {
+                $id = $_POST['delete_blog'];
+                $this->model->DeleteBlog($id);
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                exit;
+            } catch (Exception $e) {
+                $message = "Error deleting blog: " . $e->getMessage();
+            }
+        } else {
+            $message = "Record was not deleted! ";
+        }
+    }
 }

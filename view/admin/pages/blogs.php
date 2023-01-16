@@ -31,7 +31,9 @@
                 <td><button class="btn <?= $blog['b_is_active'] ? 'btn-success' : 'btn-danger' ?>"><?= $blog['b_is_active'] ? 'active' : 'not active' ?>
                 </button></td>
                 <td>
-                    <button type="submit" name="delete_blog" value="<?= $blog['b_id']?>" class="btn btn-danger">Delete</button>
+                    <form action="?action=deleteBlog" method="POST">
+                        <button type="submit" name="delete_blog" value="<?= $blog['b_id'];?>" class="btn btn-danger">Delete</button>
+                    </form>
                     <button type="submit" name="edit_blog" value="<?= $blog['b_id']?>" class="btn btn-warning">Edit</button>
                 </td>
             </tr>

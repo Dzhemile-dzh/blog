@@ -32,7 +32,9 @@
                 <td><?= $image['i_uploaded']; ?></td>
                 <td><?= $image['i_type']; ?></td>
                 <td>
-                    <button type="submit" name="delete_image" value="<?= $image['i_id']?>" class="btn btn-danger">Delete</button>
+                    <form action="?action=deleteImage" method="POST">
+                        <button type="submit" name="delete_image" value="<?= $image['i_id'];?>" class="btn btn-danger">Delete</button>
+                    </form>
                     <button type="submit" name="edit_image" value="<?= $image['i_id']?>" class="btn btn-warning">Edit</button>
                 </td>
             </tr>
