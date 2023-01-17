@@ -7,4 +7,9 @@ class HomeController extends UserController {
         $this->checkUserAccess();
         return require_once('../view/admin/dashboard.php');
     }
+
+    public function publicAction() {
+        $blogs = $this->model->publicBlogs();
+        return require_once('../view/public.php');
+    }
 }

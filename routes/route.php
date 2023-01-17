@@ -4,6 +4,7 @@ if (isset($_GET['action'])) {
 
     $routes = [
         'home' => "HomeController@indexAction",
+        'public' => "HomeController@publicAction",
         'login' => "UserController@loginAction",
         'logout' => "UserController@logoutAction",
         'register' => "UserController@registerAction",

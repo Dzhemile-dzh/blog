@@ -25,7 +25,7 @@ if (!empty($route)) {
 } else {
     $controller = 'HomeController';
     $model = 'HomeModel';
-    $action = 'indexAction';
+    $action = 'publicAction';
 }
     $load_new = new $controller();
     $model = new $model();
