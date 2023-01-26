@@ -1,5 +1,5 @@
 <?php 
-require_once '../vendor/autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -10,7 +10,7 @@ class UserController {
     private $twig;
 
     public function __construct() {
-        $this->loader = new FilesystemLoader('../view');
+        $this->loader = new FilesystemLoader(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'view');;
         $this->twig = new Environment($this->loader);
     }
 
@@ -31,7 +31,7 @@ class UserController {
             if ($checkUserLogin == 1) {
                 $token = $this->generateToken();
                 setcookie('user_token', $token, time()+3600);
-                return require_once('../view/admin/dashboard.php');
+                return require_once('..' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'dashboard.php');
             }
         }
         echo $this->twig->render('login.html.twig');
@@ -50,7 +50,7 @@ class UserController {
             $this->model->UserRegister($username, $password);
             $token = $this->generateToken();
             setcookie('user_token', $token, time()+3600);
-            return require_once('../view/admin/dashboard.php');
+            return require_once('..' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'dashboard.php');
         }
         echo $this->twig->render('register.html.twig');
     }

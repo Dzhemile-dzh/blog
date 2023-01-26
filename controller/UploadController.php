@@ -1,5 +1,5 @@
 <?php
-require_once '../vendor/autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 class UploadController {
@@ -8,7 +8,7 @@ class UploadController {
     private $twig;
 
     public function __construct() {
-        $this->loader = new FilesystemLoader('../view');
+        $this->loader = new FilesystemLoader('..' . DIRECTORY_SEPARATOR . 'view');
         $this->twig = new Environment($this->loader);
     }
 
@@ -19,7 +19,7 @@ class UploadController {
             $file = $_FILES['uploadFile'];
             if ($this->validateUpload($file)) {
                 $fileName = $file['name'];
-                $target_file = "./uploads/".basename($fileName);
+                $target_file = ".' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . '".basename($fileName);
                 if (move_uploaded_file($file["tmp_name"], $target_file)) {
                     $this->model->uploadImage($fileName, $type);
                     $message = "The file ".htmlspecialchars(basename($fileName))." has been uploaded.";
@@ -30,7 +30,7 @@ class UploadController {
                 $message = "Sorry, only JPG, JPEG, PNG files are allowed.";
             }
         }
-        echo $this->twig->render('admin/add/addImage.html.twig');
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'add' . DIRECTORY_SEPARATOR . 'addImage.html.twig');
     }
 
     public function editImageAction() {
@@ -42,12 +42,12 @@ class UploadController {
         }
         $getId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $image = $this->model->SingleImage($getId);
-        echo $this->twig->render('admin/edit/editImage.html.twig',array('image' => $image, 'types' => $types));
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'edit' . DIRECTORY_SEPARATOR . 'editImage.html.twig',array('image' => $image, 'types' => $types));
     }
         
     public function allImagesAction(){
         $images = $this->model->allImages();
-        echo $this->twig->render('admin/pages/images.html.twig', array('images' => $images));
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'pages' . DIRECTORY_SEPARATOR . 'images.html.twig', array('images' => $images));
     }
 
     private function validateUpload($file) {

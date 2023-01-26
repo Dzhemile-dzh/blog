@@ -1,5 +1,5 @@
 <?php 
-require_once '../vendor/autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -9,7 +9,7 @@ class BlogController {
     private $types = array("home-decor", "business", "art");
 
     public function __construct() {
-        $this->twig = new Environment(new FilesystemLoader('../view'));
+        $this->twig = new Environment(new FilesystemLoader('..' . DIRECTORY_SEPARATOR . 'view'));
     }
 
     public function validateBlog($method, $is_add = false) {
@@ -37,7 +37,7 @@ class BlogController {
                 $this->model->AddBlog(...$validatedData);
             }
         }
-        echo $this->twig->render('admin/add/addBlog.html.twig', array('types' => $this->types));
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'add' . DIRECTORY_SEPARATOR . 'addBlog.html.twig', array('types' => $this->types));
     }
 
     public function editBlogAction() {
@@ -49,12 +49,12 @@ class BlogController {
         }
         $getId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $blog = $this->model->SingleBlog($getId);
-        echo $this->twig->render('admin/edit/editBlog.html.twig',array('blog' => $blog, 'types' => $this->types));
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'edit' . DIRECTORY_SEPARATOR . 'editBlog.html.twig',array('blog' => $blog, 'types' => $this->types));
     }
 
     public function allBlogsAction() {
         $blogs = $this->model->allBlogs();
-        echo $this->twig->render('admin/pages/blogs.html.twig', array('blogs' => $blogs));
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'pages' . DIRECTORY_SEPARATOR . 'blogs.html.twig', array('blogs' => $blogs));
     }
     
     public function deleteBlogAction(){

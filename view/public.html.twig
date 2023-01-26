@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% include 'template/header.html.twig' %}
+    {% include 'template'  ~ constant('DIRECTORY_SEPARATOR') ~ 'header.html.twig' %}
     <title>Blogs</title>
 </head>
 <body>
-    {% include 'template/nav.html.twig' %}
+    {% include 'template'  ~ constant('DIRECTORY_SEPARATOR') ~ 'nav.html.twig' %}
     <h1>All Blog details</h1>
     {% for blog in blogs %} 
         <div class="container">
@@ -25,6 +25,6 @@
             </div>
         </div>
     {% endfor %}        
-    {% include 'template/footer.html.twig' %}
+    {% include 'template'  ~ constant('DIRECTORY_SEPARATOR') ~ 'footer.html.twig' %}
 </body>
 </html>

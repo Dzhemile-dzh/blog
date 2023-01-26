@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% include 'template/header.html.twig' %}
+    {% include 'template'  ~ constant('DIRECTORY_SEPARATOR') ~ 'header.html.twig' %}
     <title>Add Blog Details</title>
 </head>
 <body>
-    {% include 'template/navigation.html.twig' %}
+    {% include 'template'  ~ constant('DIRECTORY_SEPARATOR') ~ 'navigation.html.twig' %}
     <div class="container">
         <div class="alert alert-primary" role="alert" id="msg" {% if message is empty %} style="display:none" {% endif %}> 
            {{ message|default('') }}
@@ -36,5 +36,5 @@
         </form>
     </div>
 </body>
-{% include 'template/footer.html.twig' %}
+{% include 'template'  ~ constant('DIRECTORY_SEPARATOR') ~ 'footer.html.twig' %}
 </html>

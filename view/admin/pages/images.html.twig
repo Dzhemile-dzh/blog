@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% include 'template/header.html.twig' %}
+    {% include 'template'  ~ constant('DIRECTORY_SEPARATOR') ~ 'header.html.twig' %}
     <title>Images Details</title>
 </head>
 <body>
-    {% include 'template/navigation.html.twig' %}
+    {% include 'template'  ~ constant('DIRECTORY_SEPARATOR') ~ 'navigation.html.twig' %}
     <div class="container">
         <a href="?action=fileUpload"><button class="btn btn-success">Add Image</button></a>
         <h1>All Images</h1>
@@ -43,5 +43,5 @@
         </table>
     </div>  
 </body>
-{% include 'template/footer.html.twig' %}
+{% include 'template'  ~ constant('DIRECTORY_SEPARATOR') ~ 'footer.html.twig' %}
 </html>

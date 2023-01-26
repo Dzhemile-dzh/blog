@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class BlogTest extends TestCase
 {
-    public function setUp()
+    public function setUp():void
     {
         $this->mockModel = $this->createMock(Model::class);
         $this->controller = new BlogController();

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% include 'template/header.html.twig' %}
+   {% include 'template'  ~ constant('DIRECTORY_SEPARATOR') ~ 'header.html.twig' %}
 </head>
 {% block body %}
     <div id="register">
