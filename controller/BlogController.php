@@ -3,18 +3,16 @@ require_once '../vendor/autoload.php';
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-
 class BlogController {
     public $model;
-    private $loader;
     private $twig;
+    private $types = array("home-decor", "business", "art");
 
     public function __construct() {
-        $this->loader = new FilesystemLoader('../view');
-        $this->twig = new Environment($this->loader);
+        $this->twig = new Environment(new FilesystemLoader('../view'));
     }
 
-    public function validateBlog($method) {
+    public function validateBlog($method, $is_add = false) {
         $id = filter_input($method, 'b_id', FILTER_SANITIZE_NUMBER_INT);
         $title = filter_input($method, 'b_title', FILTER_SANITIZE_SPECIAL_CHARS);
         $body = filter_input($method, 'b_body', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -22,27 +20,27 @@ class BlogController {
         $author = filter_input($method, 'b_author', FILTER_SANITIZE_SPECIAL_CHARS);
         $is_active = filter_input($method, 'b_is_active', FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
         if ($title && $body && $type && $author) {
-            return array($id, $title, $body, $type, $author, $is_active);
+            if($is_add) {
+                return array($title, $body, $type, $author, $is_active);
+            } else {
+                return array($id, $title, $body, $type, $author, $is_active);
+            }
         } else {
-            $message = "An error occured! ";
             return false;
         }
     }
-    
-    public function addBlogAction() {
-        $types = array("home-decor", "business", "art");
 
+    public function addBlogAction() {
         if (isset($_POST['submit'])) {
-            $validatedData = $this->validateBlog(INPUT_POST);
+            $validatedData = $this->validateBlog(INPUT_POST, true);
             if ($validatedData) {
                 $this->model->AddBlog(...$validatedData);
             }
         }
-        echo $this->twig->render('admin/add/addBlog.html.twig', array('types' => $types));
+        echo $this->twig->render('admin/add/addBlog.html.twig', array('types' => $this->types));
     }
-    
+
     public function editBlogAction() {
-        $types = array("home-decor", "business", "art");
         if (isset($_POST['submit'])) {
             $validatedData = $this->validateBlog(INPUT_POST);
             if ($validatedData) {
@@ -51,12 +49,12 @@ class BlogController {
         }
         $getId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $blog = $this->model->SingleBlog($getId);
-        echo $this->twig->render('admin/edit/editBlog.html.twig',array('blog' => $blog, 'types' => $types));
+        echo $this->twig->render('admin/edit/editBlog.html.twig',array('blog' => $blog, 'types' => $this->types));
     }
 
     public function allBlogsAction() {
-            $blogs = $this->model->allBlogs();
-            echo $this->twig->render('admin/pages/blogs.html.twig', array('blogs' => $blogs));
+        $blogs = $this->model->allBlogs();
+        echo $this->twig->render('admin/pages/blogs.html.twig', array('blogs' => $blogs));
     }
     
     public function deleteBlogAction(){

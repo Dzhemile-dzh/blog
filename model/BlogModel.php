@@ -34,6 +34,13 @@ class BlogModel {
         return $stmt;
     }
 
+    public function AllImages () {
+        $query = " SELECT *
+                   FROM images ";
+        $stmt = $this->db->query($query)->fetchAll();
+        return $stmt;
+    }
+
     public function DeleteBlog($id) {
         $query = " DELETE
                    FROM blog

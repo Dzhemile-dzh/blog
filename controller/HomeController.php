@@ -5,12 +5,10 @@ use Twig\Loader\FilesystemLoader;
 
 class HomeController extends UserController {
     public $model;
-    private $loader;
     private $twig;
 
     public function __construct() {
-        $this->loader = new FilesystemLoader('../view');
-        $this->twig = new Environment($this->loader);
+        $this->twig = new Environment(new FilesystemLoader('../view'));
     }
 
     public function indexAction() {
