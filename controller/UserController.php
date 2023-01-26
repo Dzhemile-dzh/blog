@@ -1,11 +1,22 @@
 <?php 
+require_once '../vendor/autoload.php';
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class UserController {
     public $model;
 
+    private $loader;
+    private $twig;
+
+    public function __construct() {
+        $this->loader = new FilesystemLoader('../view');
+        $this->twig = new Environment($this->loader);
+    }
+
     public function checkUserAccess() {
         if (!isset($_COOKIE['user_token'])) {
-            require_once('../view/login.php');
+            echo $this->twig->render('login.html.twig');
             exit;
         }
     }
@@ -23,14 +34,14 @@ class UserController {
                 return require_once('../view/admin/dashboard.php');
             }
         }
-        return require_once('../view/login.php');
+        echo $this->twig->render('login.html.twig');
     }
 
     public function logoutAction() {
         unset($_COOKIE['user_token']);
-        return require_once('../view/login.php');
+        echo $this->twig->render('login.html.twig');
     }
-    
+
     public function registerAction() {
         if(isset($_POST['RegisterSubmit'])){
             $username = $_POST['username'];
@@ -41,11 +52,10 @@ class UserController {
             setcookie('user_token', $token, time()+3600);
             return require_once('../view/admin/dashboard.php');
         }
-        return require_once('../view/register.php');
+        echo $this->twig->render('register.html.twig');
     }
-    
+
     private function generateToken(){
         return bin2hex(random_bytes(32));
     }
 }
-    

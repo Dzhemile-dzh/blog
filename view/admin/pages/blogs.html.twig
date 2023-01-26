@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'template/header.html.twig' %}
+    <title>Add Blog Details</title>
+</head>
+<body>
+    {% include 'template/navigation.html.twig' %}
+    <div class="container">
+        <a href="?action=addBlog"><button class="btn btn-success">Add Blog</button></a>
+        <h1>All Blog details</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope='col'>#</th>
+                    <th scope='col'>Title</th>
+                    <th scope='col'>Body</th>
+                    <th scope='col'>Author</th>
+                    <th scope='col'>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for blog in blogs %} 
+                    <tr>
+                        <th scope="row">{{ blog.b_id }}</th>
+                        <td>{{ blog.b_title }}</td>
+                        <td>{{ blog.b_body[:120] }}...</td>
+                        <td>{{ blog.b_author }}</td>
+                        <td><button class="btn {% if blog.b_is_active %}btn-success{% else %}btn-danger{% endif %}">{{ blog.b_is_active ? 'active' : 'not active' }}
+                        </button></td>
+                        <td>
+                            <form action="?action=deleteBlog" method="POST">
+                                <button type="submit" name="delete_blog" value="{{ blog.b_id }}" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="?action=editBlog&id={{ blog.b_id }}"><button class="btn btn-info">Edit</button></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>  
+</body>
+{% include 'template/footer.html.twig' %}
+</html>

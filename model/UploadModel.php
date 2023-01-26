@@ -18,9 +18,9 @@ class UploadModel {
         return $stmt;
     }
 
-    public function EditImage ($id, $type, $fileName) {
+    public function EditImage ($id, $type) {
         $query = " UPDATE images 
-                   SET i_filename = '$fileName', i_uploaded = NOW(), i_type = '$type'
+                   SET i_uploaded = NOW(), i_type = '$type'
                    WHERE i_id = '$id'";
         $stmt = $this->db->query($query);
         return 1;

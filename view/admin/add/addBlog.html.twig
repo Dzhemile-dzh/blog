@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include_once('../view/template/header.php'); ?>
+    {% include 'template/header.html.twig' %}
     <title>Add Blog Details</title>
 </head>
 <body>
-<?php include_once('../view/template/navigation.php'); ?>
+    {% include 'template/navigation.html.twig' %}
     <div class="container">
-        <div class="alert alert-primary" role="alert" id="msg" <?php echo !empty($message) ?: 'style="display:none"' ?>> 
-           <?php echo $message?>
+        <div class="alert alert-primary" role="alert" id="msg" {% if message is empty %} style="display:none" {% endif %}> 
+           {{ message|default('') }}
         </div>
         <form class="row g-3" action="?action=addBlog" method="POST">
             <div class="col-12">
@@ -29,12 +29,9 @@
             
                                 <label for="b_type">type</label>
                                 <select name="b_type" class="form-control">
-                                    <?php 
-                                        $types = array("home-decor", "business", "art");
-                                        foreach ($types as $type) {
-                                            echo "<option value='$type'>$type</option>";
-                                        }
-                                    ?>
+                                    {% for type in types %}
+                                        <option value="{{ type }}">{{ type }}</option>
+                                    {% endfor %}
                                 </select>
 
                                 <label for="b_author">author</label>
@@ -48,7 +45,7 @@
                 <input type="submit" value="Add blog" name="submit" class="btn btn-success submit float right" id="submit">     
             </div>
         </form>
-    </div>
-<?php include_once('../view/template/footer.php'); ?>
+    </div>  
 </body>
+{% include 'template/footer.html.twig' %}
 </html>

@@ -1,7 +1,18 @@
 <?php 
+require_once '../vendor/autoload.php';
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 
 class BlogController {
     public $model;
+    private $loader;
+    private $twig;
+
+    public function __construct() {
+        $this->loader = new FilesystemLoader('../view');
+        $this->twig = new Environment($this->loader);
+    }
 
     public function validateBlog($method) {
         $id = filter_input($method, 'b_id', FILTER_SANITIZE_NUMBER_INT);
@@ -19,16 +30,19 @@ class BlogController {
     }
     
     public function addBlogAction() {
+        $types = array("home-decor", "business", "art");
+
         if (isset($_POST['submit'])) {
             $validatedData = $this->validateBlog(INPUT_POST);
             if ($validatedData) {
                 $this->model->AddBlog(...$validatedData);
             }
         }
-        return require_once('../view/admin/add/addBlog.php');
+        echo $this->twig->render('admin/add/addBlog.html.twig', array('types' => $types));
     }
     
     public function editBlogAction() {
+        $types = array("home-decor", "business", "art");
         if (isset($_POST['submit'])) {
             $validatedData = $this->validateBlog(INPUT_POST);
             if ($validatedData) {
@@ -37,12 +51,12 @@ class BlogController {
         }
         $getId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $blog = $this->model->SingleBlog($getId);
-        return require_once('../view/admin/edit/editBlog.php');
+        echo $this->twig->render('admin/edit/editBlog.html.twig',array('blog' => $blog, 'types' => $types));
     }
 
     public function allBlogsAction() {
             $blogs = $this->model->allBlogs();
-            return require_once('../view/admin/pages/blogs.php');
+            echo $this->twig->render('admin/pages/blogs.html.twig', array('blogs' => $blogs));
     }
     
     public function deleteBlogAction(){

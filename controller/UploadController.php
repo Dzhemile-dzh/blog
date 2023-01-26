@@ -1,6 +1,16 @@
 <?php
+require_once '../vendor/autoload.php';
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 class UploadController {
     public $model;
+    private $loader;
+    private $twig;
+
+    public function __construct() {
+        $this->loader = new FilesystemLoader('../view');
+        $this->twig = new Environment($this->loader);
+    }
 
     public function uploadAction() {
         $message = "";
@@ -20,21 +30,24 @@ class UploadController {
                 $message = "Sorry, only JPG, JPEG, PNG files are allowed.";
             }
         }
-        return require_once('../view/admin/add/addImage.php');
+        echo $this->twig->render('admin/add/addImage.html.twig');
     }
 
     public function editImageAction() {
+        $types = array("main", "secondary");
         if (isset($_POST['submit'])) {
+            $id = filter_input(INPUT_POST, 'i_id', FILTER_SANITIZE_NUMBER_INT);
             $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
+            $this->model->EditImage($id, $type);
         }
         $getId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $image = $this->model->SingleImage($getId);
-        return require_once('../view/admin/edit/editImage.php');
+        echo $this->twig->render('admin/edit/editImage.html.twig',array('image' => $image, 'types' => $types));
     }
         
     public function allImagesAction(){
         $images = $this->model->allImages();
-        return require_once('../view/admin/pages/images.php');
+        echo $this->twig->render('admin/pages/images.html.twig', array('images' => $images));
     }
 
     private function validateUpload($file) {
