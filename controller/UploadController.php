@@ -19,7 +19,7 @@ class UploadController {
             $file = $_FILES['uploadFile'];
             if ($this->validateUpload($file)) {
                 $fileName = $file['name'];
-                $target_file = ".' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . '".basename($fileName);
+                $target_file = "./uploads/".basename($fileName);
                 if (move_uploaded_file($file["tmp_name"], $target_file)) {
                     $this->model->uploadImage($fileName, $type);
                     $message = "The file ".htmlspecialchars(basename($fileName))." has been uploaded.";
@@ -30,19 +30,21 @@ class UploadController {
                 $message = "Sorry, only JPG, JPEG, PNG files are allowed.";
             }
         }
-        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'add' . DIRECTORY_SEPARATOR . 'addImage.html.twig');
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'add' . DIRECTORY_SEPARATOR . 'addImage.html.twig', array('message' => $message));
     }
 
     public function editImageAction() {
+        $success = false;
         $types = array("main", "secondary");
         if (isset($_POST['submit'])) {
             $id = filter_input(INPUT_POST, 'i_id', FILTER_SANITIZE_NUMBER_INT);
             $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_SPECIAL_CHARS);
-            $this->model->EditImage($id, $type);
+            $success = $this->model->EditImage($id, $type);
+           
         }
         $getId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $image = $this->model->SingleImage($getId);
-        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'edit' . DIRECTORY_SEPARATOR . 'editImage.html.twig',array('image' => $image, 'types' => $types));
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'edit' . DIRECTORY_SEPARATOR . 'editImage.html.twig',array('image' => $image, 'types' => $types, 'success' => $success));
     }
         
     public function allImagesAction(){

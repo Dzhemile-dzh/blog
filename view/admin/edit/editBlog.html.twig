@@ -10,6 +10,9 @@
         <div class="alert alert-primary" role="alert" id="msg" {% if message is empty %}style="display:none"{% endif %}> 
             {{ message }}
         </div>
+        {% if success %}
+            <div class="alert alert-success">Blog item was changed successfully</div>
+        {% endif %}
         <form class="row g-3" action="?action=editBlog&id={{ blog.b_id }}" method="POST">
             <input type="hidden" name="b_id" value="{{ blog.b_id }}">
             <div class="col-12">

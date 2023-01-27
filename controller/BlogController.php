@@ -31,25 +31,27 @@ class BlogController {
     }
 
     public function addBlogAction() {
+        $success = false;
         if (isset($_POST['submit'])) {
             $validatedData = $this->validateBlog(INPUT_POST, true);
             if ($validatedData) {
-                $this->model->AddBlog(...$validatedData);
+                $success = $this->model->AddBlog(...$validatedData);
             }
         }
-        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'add' . DIRECTORY_SEPARATOR . 'addBlog.html.twig', array('types' => $this->types));
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'add' . DIRECTORY_SEPARATOR . 'addBlog.html.twig', array('types' => $this->types, 'success' => $success));
     }
 
     public function editBlogAction() {
+        $success = false;
         if (isset($_POST['submit'])) {
             $validatedData = $this->validateBlog(INPUT_POST);
             if ($validatedData) {
-                $this->model->EditBlog(...$validatedData);
+                $success = $this->model->EditBlog(...$validatedData);
             }
         }
         $getId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $blog = $this->model->SingleBlog($getId);
-        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'edit' . DIRECTORY_SEPARATOR . 'editBlog.html.twig',array('blog' => $blog, 'types' => $this->types));
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'edit' . DIRECTORY_SEPARATOR . 'editBlog.html.twig',array('blog' => $blog, 'types' => $this->types, 'success' => $success));
     }
 
     public function allBlogsAction() {
