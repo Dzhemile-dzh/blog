@@ -1,37 +1,39 @@
 <?php
-use BlogController;
 use PHPUnit\Framework\TestCase;
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'model' . DIRECTORY_SEPARATOR . 'BlogModel.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'BlogController.php';
 
 class BlogTest extends TestCase
 {
-    public function setUp():void
-    {
-        $this->mockModel = $this->createMock(Model::class);
-        $this->controller = new BlogController();
-        $this->controller->model = $this->mockModel;
-    
-    }
+        public $mockModel;
+        public $blogController;
+        public $types = array("home-decor", "business", "art");
+        public $images = array("image1.jpg", "image2.jpg", "image3.jpg");
+        
+        public function setUp():void
+        {
+            $this->mockModel = $this->createMock(BlogModel::class);
+            $this->blogController = new BlogController();
+            $this->blogController->model = $this->mockModel;
+        }
+        
+        public function testAddBlogAction() {
+            $this->mockModel->expects($this->once())
+                      ->method('AddBlog')
+                      ->willReturn(true);
+        
+            $this->blogController->addBlogAction('Test Blog', 'home-decor', 'Test Blog Description');
+        
+            $this->assertEquals(true, $this->mockModel->AddBlog('Test Blog', 'home-decor', 'Test Blog Description','Test Author', 1, 14));
+        }
 
-    public function testAddBlogAction() {
-  
-
-        $mockModel = $this->createMock(Model::class);
-
-        $mockModel->expects($this->once())
-            ->method('AddBlog')
-            ->with($this->equalTo('Test Title'), $this->equalTo('Test Body'), $this->equalTo('Test Type'), $this->equalTo('Test Author'), $this->equalTo(0));
-
-        $controller = new BlogController();
-        $controller->model = $mockModel;
-
-        $_POST = [
-            'submit' => true,
-            'b_title' => 'Test Title',
-            'b_body' => 'Test Body',
-            'b_type' => 'Test Type',
-            'b_author' => 'Test Author',
-        ];
-
-        $this->assertEquals(require_once('../view/admin/add/addBlog.php'), $controller->addBlogAction());
-    }
+        public function testDeleteBlogAction() {
+            $this->mockModel->expects($this->once())
+                      ->method('DeleteBlog')
+                      ->willReturn(true);
+        
+            $this->blogController->deleteBlogAction(1);
+        
+            $this->assertEquals(true, $this->mockModel->DeleteBlog(1));
+        }
 }

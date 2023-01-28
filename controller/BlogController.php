@@ -7,12 +7,14 @@ use Twig\Loader\FilesystemLoader;
 class BlogController {
     public $model;
     private $twig;
+    private $loader;
     private $validator;
     private $types = array("home-decor", "business", "art");
 
     public function __construct() {
         $this->validator = new BlogValidator();
-        $this->twig = new Environment(new FilesystemLoader('..' . DIRECTORY_SEPARATOR . 'view'));
+        $this->loader = new FilesystemLoader(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'view');;
+        $this->twig = new Environment($this->loader);
     }
 
     public function addBlogAction() {

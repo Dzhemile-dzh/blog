@@ -8,7 +8,7 @@ class UploadController {
     private $twig;
 
     public function __construct() {
-        $this->loader = new FilesystemLoader('..' . DIRECTORY_SEPARATOR . 'view');
+        $this->loader = new FilesystemLoader(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'view');;
         $this->twig = new Environment($this->loader);
     }
 
