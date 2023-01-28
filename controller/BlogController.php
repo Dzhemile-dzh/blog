@@ -23,7 +23,9 @@ class BlogController {
                 $success = $this->model->AddBlog(...$validatedData);
             }
         }
-        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'add' . DIRECTORY_SEPARATOR . 'addBlog.html.twig', array('types' => $this->types, 'success' => $success));
+        $images = $this->model->AllImages();
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'add' . DIRECTORY_SEPARATOR . 'addBlog.html.twig', 
+                                  array('types' => $this->types, 'success' => $success, 'images' => $images));
     }
 
     public function editBlogAction() {
@@ -36,12 +38,15 @@ class BlogController {
         }
         $getId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         $blog = $this->model->SingleBlog($getId);
-        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'edit' . DIRECTORY_SEPARATOR . 'editBlog.html.twig',array('blog' => $blog, 'types' => $this->types, 'success' => $success));
+        $images = $this->model->AllImages();
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'edit' . DIRECTORY_SEPARATOR . 'editBlog.html.twig',
+                                  array('blog' => $blog, 'types' => $this->types, 'success' => $success, 'images' => $images));
     }
 
     public function allBlogsAction() {
         $blogs = $this->model->allBlogs();
-        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'pages' . DIRECTORY_SEPARATOR . 'blogs.html.twig', array('blogs' => $blogs));
+        echo $this->twig->render('admin' . DIRECTORY_SEPARATOR . 'pages' . DIRECTORY_SEPARATOR . 'blogs.html.twig', 
+                                  array('blogs' => $blogs));
     }
     
     public function deleteBlogAction(){
@@ -49,6 +54,7 @@ class BlogController {
             try {
                 $id = $_POST['delete_blog'];
                 $this->model->DeleteBlog($id);
+                $message = "Blog has been successfully deleted!";
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
                 exit;
             } catch (Exception $e) {
