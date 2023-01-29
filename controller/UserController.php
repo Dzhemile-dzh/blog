@@ -1,4 +1,6 @@
 <?php 
+session_start();
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -15,7 +17,7 @@ class UserController {
     }
 
     public function checkUserAccess() {
-        if (!isset($_COOKIE['user_token'])) {
+        if (!isset($_SESSION['username'])) {
             echo $this->twig->render('login.html.twig');
             exit;
         }
@@ -25,20 +27,20 @@ class UserController {
         if (isset($_POST['LoginSubmit'])) {
             $username = $_POST['username'];
             $password = $_POST['password'];
-
-            $checkUserLogin = $this->model->CheckUserLogin($username, $password);
-
-            if ($checkUserLogin == 1) {
-                $token = $this->generateToken();
-                setcookie('user_token', $token, time()+3600);
+    
+            $user = $this->model->CheckUserLogin($username, $password);
+            if (!empty($user)) {
+                $_SESSION['username'] = $username;
                 return require_once('..' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'dashboard.php');
+            } else {
+                echo "Incorrect username or password";
             }
         }
         echo $this->twig->render('login.html.twig');
     }
 
     public function logoutAction() {
-        unset($_COOKIE['user_token']);
+        unset($_SESSION['username']);
         echo $this->twig->render('login.html.twig');
     }
 
@@ -48,14 +50,11 @@ class UserController {
             $password = $_POST['password'];
     
             $this->model->UserRegister($username, $password);
-            $token = $this->generateToken();
-            setcookie('user_token', $token, time()+3600);
-            return require_once('..' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'dashboard.php');
+            $_SESSION['username'] = $username;
+            echo "New user added!";
+            echo $this->twig->render('login.html.twig');
+        } else {
+            echo $this->twig->render('register.html.twig');
         }
-        echo $this->twig->render('register.html.twig');
-    }
-
-    private function generateToken(){
-        return bin2hex(random_bytes(32));
     }
 }
