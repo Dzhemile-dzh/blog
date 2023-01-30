@@ -1,5 +1,22 @@
 MICROBLOG PROJECT.
 
+Fixed issues after the code review: 
+    · OS incompatibility, Directory Separator
+    · No template engine
+    · Controllers are too fat
+    · DB inconsistency - "Add blog" throws a fatal error
+    · No error handling, no exceptions, no check if the DB queries are successful
+    · Try to move the validation logic outside the controllers
+    · Inconsistent, ex. some files have the correct directory separator others don’t, etc
+    · No Middleware
+    · Plain DB password
+    · Dashboard is accessible by bypassing the login with empty data
+    · There is no Session starting in the project
+    · Plain queries without DB layer
+    · DB Conn Singleton's class Connection doesn't follow the best practices
+    · TestCase base class is missing
+!! Not included Slim 3.0 as it's needed to change all project structure, routing, controllers and time defeated me in this struggle
+
 This Microblog project includes:
     -public page: includes all blog post visible to all users
     -login form
