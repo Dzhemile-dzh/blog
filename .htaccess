@@ -1,0 +1,5 @@
+
+SetEnv DB_SERVER "localhost"
+SetEnv DB_NAME "microblog"
+SetEnv DB_PASSWORD "dzhemile42"
+SetEnv DB_USER "dzhemile"
