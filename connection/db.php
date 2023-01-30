@@ -1,23 +1,30 @@
 <?php
 
 class Connection {
-    public static $connection = false;
+    private static $instance = null;
+    private $connection;
 
-    private function __construct () {}
-
-    public static function connect ($config) {
+    private function __construct($config) {
         try {
-            if (!self::$connection) {
-                $con = new PDO ("mysql:host={$config['db']['server']};dbname={$config['db']['dbname']}",
+            $this->connection = new PDO("mysql:host={$config['db']['server']};dbname={$config['db']['dbname']}",
                 $config['db']['dbuser'], $config['db']['dbpass']);
-                $con->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-                $con->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
-                self::$connection = $con;
-                return self::$connection;
-            }
+            $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->connection->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             echo $e->getMessage();
             exit;
         }
+    }
+
+    public static function getInstance($config) {
+        if (self::$instance === null) {
+            self::$instance = new self($config);
+        }
+
+        return self::$instance;
+    }
+
+    public function getConnection() {
+        return $this->connection;
     }
 }

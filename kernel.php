@@ -13,7 +13,8 @@ spl_autoload_register (function($class) {
     }
 });
 
-$db = Connection::connect($config);
+$db = Connection::getInstance($config);
+$db = $db->getConnection();
 
 include_once(__DIR__ . DIRECTORY_SEPARATOR . "routes" . DIRECTORY_SEPARATOR . "route.php");
 
