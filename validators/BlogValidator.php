@@ -16,6 +16,7 @@ class BlogValidator {
                 return array($id, $title, $body, $type, $author, $is_active, $image_id);
             }
         } else {
+            echo "Validation failed!";
             return false;
         }
     }

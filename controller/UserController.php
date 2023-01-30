@@ -2,6 +2,7 @@
 session_start();
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'middleware' . DIRECTORY_SEPARATOR . 'CheckAuthMiddleware.php';
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -14,6 +15,11 @@ class UserController {
     public function __construct() {
         $this->loader = new FilesystemLoader(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'view');;
         $this->twig = new Environment($this->loader);
+    }
+
+    public function before() {
+        $middleware = new CheckAuthMiddleware($this);
+        $middleware->handle();
     }
 
     public function checkUserAccess() {
